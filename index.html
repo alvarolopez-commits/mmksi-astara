@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automotive Performance Report · Astara Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html,body { height:100%; overflow:hidden; }
+body {
+  font-family:'Montserrat',system-ui,sans-serif;
+  background:#f0f2f5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ── TOKENS ── */
+:root {
+  --bg:        #f0f2f5;
+  --surface:   #ffffff;
+  --fg-1:      #1c1a38;
+  --fg-2:      #2e4a62;
+  --fg-3:      #7a8fa3;
+  --fg-4:      #b0bfcc;
+  --accent:    #1a4d7a;
+  --accent-lt: #8bcdff;
+  --font-sans:  'Montserrat', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --ease:       cubic-bezier(0.32,0.72,0,1);
+  --px:  80px;
+  --py:  52px;
+  --bar: 52px;
+}
+
+/* ── DECK ── */
+.deck {
+  display:flex;
+  width:100vw; height:100dvh;
+  overflow-x:scroll; overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+}
+.deck::-webkit-scrollbar { display:none; }
+
+/* ── SLIDE BASE ── */
+.s {
+  min-width:100vw; width:100vw; height:100dvh;
+  scroll-snap-align:start;
+  position:relative;
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  background:var(--bg);
+}
+
+/* ── LOGO SIZES ── */
+.logo-dark  { height:15px; width:auto; display:block; }
+.logo-white { height:15px; width:auto; display:block; }
+.logo-hero  { height:18px; width:auto; display:block; }
+
+/* ════════════════════════════════════
+   TOPBAR,light
+════════════════════════════════════ */
+.bar {
+  position:absolute; top:0; left:0; right:0;
+  height:var(--bar);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 var(--px);
+  z-index:10;
+  border-bottom:1px solid rgba(26,77,122,0.08);
+  background:rgba(240,242,245,0.92);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+.bar-label {
+  font-size:9px; font-weight:600;
+  letter-spacing:0.16em;
+  color:var(--fg-3);
+  white-space:nowrap;
+}
+
+/* ════════════════════════════════════
+   COVER / SECTION DIVIDER,DARK
+════════════════════════════════════ */
+.s-cover {
+  background:
+    linear-gradient(to right, rgba(7,10,20,0.62) 25%, rgba(7,10,20,0.18) 100%),
+    url('MATERIALES/PORTADA INDONESIA.jpg') center/cover no-repeat;
+}
+.s-sec {
+  background:
+    linear-gradient(155deg, rgba(7,10,20,0.72) 0%, rgba(12,19,34,0.62) 40%, rgba(17,31,56,0.50) 72%, rgba(22,45,82,0.35) 100%),
+    url('MATERIALES/portadaslas.jpg') center/cover no-repeat;
+}
+.s-close {
+  background: linear-gradient(155deg, #070a14 0%, #0c1322 40%, #111f38 72%, #162d52 100%);
+  align-items:center;
+  justify-content:center;
+}
+
+.cover-glow-br {
+  position:absolute; bottom:-160px; right:-80px;
+  width:660px; height:660px; border-radius:50%;
+  background: radial-gradient(circle, rgba(26,77,122,0.30) 0%, rgba(26,77,122,0.12) 45%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.cover-glow-tl {
+  position:absolute; top:-100px; left:-80px;
+  width:420px; height:420px; border-radius:50%;
+  background: radial-gradient(circle, rgba(139,205,255,0.10) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+.sec-glow-tr {
+  position:absolute; top:-160px; right:-40px;
+  width:580px; height:580px; border-radius:50%;
+  background: radial-gradient(circle, rgba(139,205,255,0.10) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+.sec-glow-bl {
+  position:absolute; bottom:-180px; left:60px;
+  width:420px; height:420px; border-radius:50%;
+  background: radial-gradient(circle, rgba(26,77,122,0.18) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+.close-glow-c {
+  position:absolute;
+  width:700px; height:700px; border-radius:50%;
+  background: radial-gradient(circle, rgba(26,77,122,0.22) 0%, rgba(139,205,255,0.06) 40%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+
+.cover-logo {
+  position:absolute; top:0; left:0;
+  padding:20px var(--px);
+  z-index:10; line-height:0;
+  display:flex; align-items:center;
+  height:var(--bar);
+}
+.cover-label {
+  position:absolute; top:0; right:0;
+  padding:0 var(--px);
+  font-size:9px; font-weight:600;
+  letter-spacing:0.16em;
+  color:rgba(207,224,240,0.45);
+  z-index:10;
+  display:flex; align-items:center;
+  height:var(--bar);
+}
+
+/* COVER STAGE */
+.cover-stage {
+  position:relative; z-index:5;
+  flex:1;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:calc(var(--bar) + 32px) var(--px) 72px;
+  max-width:860px;
+}
+.cover-h1 {
+  font-size:clamp(52px,6.2vw,82px);
+  font-weight:700;
+  line-height:0.94;
+  letter-spacing:-0.04em;
+  color:#ffffff;
+  margin-bottom:28px;
+}
+.cover-h1 em { font-style:normal; color:var(--accent-lt); }
+.cover-subtitle {
+  font-size:clamp(20px,2.4vw,30px);
+  font-family:var(--font-sans);
+  font-weight:500;
+  letter-spacing:-0.01em;
+  color:rgba(207,224,240,0.80);
+  line-height:1.35;
+  margin-bottom:28px;
+  white-space:nowrap;
+}
+.cover-note {
+  font-size:18px; font-weight:400;
+  color:rgba(207,224,240,0.52);
+  line-height:1.72;
+  max-width:540px;
+}
+.cover-meta {
+  position:absolute; bottom:36px; left:var(--px);
+  display:flex; align-items:center; gap:16px;
+}
+.cover-meta-pill {
+  font-size:9px; font-weight:600;
+  letter-spacing:0.14em;
+  color:var(--accent-lt);
+  background:rgba(139,205,255,0.10);
+  border-radius:9999px;
+  padding:5px 14px;
+}
+.cover-meta-line { width:1px; height:14px; background:rgba(139,205,255,0.18); }
+.cover-meta-text {
+  font-size:9px; font-weight:500;
+  letter-spacing:0.10em;
+  color:rgba(207,224,240,0.32);
+}
+
+/* SECTION DIVIDER STAGE */
+.sec-stage {
+  position:relative; z-index:5;
+  flex:1;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:calc(var(--bar) + 24px) var(--px) 72px;
+  max-width:760px;
+}
+.sec-eyebrow {
+  font-size:10px; font-weight:700;
+  letter-spacing:0.22em;
+  color:rgba(139,205,255,0.45);
+  margin-bottom:18px;
+  display:block;
+  text-transform:uppercase;
+}
+.sec-h1 {
+  font-size:clamp(46px,5.5vw,68px);
+  font-weight:700;
+  line-height:1.0;
+  letter-spacing:-0.04em;
+  color:#ffffff;
+  margin-bottom:22px;
+}
+.sec-h1 em { font-style:normal; color:var(--accent-lt); }
+.sec-note {
+  font-size:18px; font-weight:400;
+  color:rgba(207,224,240,0.52);
+  line-height:1.72;
+  max-width:520px;
+}
+
+/* CLOSING STAGE */
+.close-stage {
+  position:relative; z-index:5;
+  display:flex; flex-direction:column;
+  align-items:center; text-align:center;
+  gap:24px;
+}
+.close-tagline {
+  font-size:clamp(20px,2.4vw,28px);
+  font-weight:500;
+  letter-spacing:-0.02em;
+  color:rgba(207,224,240,0.72);
+  line-height:1.35;
+  max-width:560px;
+}
+.close-tagline em { font-style:normal; color:#ffffff; font-weight:700; }
+.close-sub {
+  font-size:12px; font-weight:400;
+  color:rgba(207,224,240,0.38);
+  line-height:1.6;
+  max-width:420px;
+}
+.close-divider {
+  width:48px; height:1px;
+  background:rgba(139,205,255,0.22);
+}
+.close-year {
+  font-size:10px; font-weight:600;
+  letter-spacing:0.18em;
+  color:rgba(139,205,255,0.30);
+  text-transform:uppercase;
+}
+
+/* LOGO BAR (bottom-right: Astara + Mitsubishi) */
+.logo-bar-br {
+  position:absolute; bottom:36px; right:var(--px);
+  display:flex; align-items:center; gap:20px;
+  z-index:10;
+}
+.logo-bar-br img { height:14px; width:auto; display:block; }
+.logo-bar-br .mitsu-logo-w { height:62px; width:auto; display:block; opacity:0.75; }
+
+/* CLOSE LOGO ROW (centered) */
+.close-logo-row {
+  display:flex; align-items:center; justify-content:center; gap:28px;
+  margin-top:24px;
+}
+.close-logo-row img { height:14px; width:auto; display:block; }
+.close-logo-row .mitsu-svg { height:16px; width:auto; display:block; }
+
+/* DOWNLOAD BUTTON */
+.dl-btn {
+  display:inline-flex; align-items:center; gap:9px;
+  margin-top:32px;
+  padding:12px 28px;
+  background:rgba(139,205,255,0.10);
+  border:1px solid rgba(139,205,255,0.28);
+  border-radius:9999px;
+  color:rgba(207,224,240,0.85);
+  font-size:11px; font-weight:600;
+  letter-spacing:0.12em; text-transform:uppercase;
+  text-decoration:none;
+  transition:background 0.2s, border-color 0.2s;
+}
+.dl-btn:hover {
+  background:rgba(139,205,255,0.18);
+  border-color:rgba(139,205,255,0.55);
+  color:#ffffff;
+}
+.dl-btn svg { width:14px; height:14px; stroke:currentColor; stroke-width:2; fill:none; flex-shrink:0; }
+
+/* ════════════════════════════════════
+   SLIDE 2,ECOSYSTEM LIGHT
+════════════════════════════════════ */
+.s-eco {
+  background: linear-gradient(155deg, #f4f6f9 0%, #edf1f7 50%, #e2ecf5 100%);
+}
+.eco-blob-tr {
+  position:absolute; top:-120px; right:60px;
+  width:560px; height:560px; border-radius:50%;
+  background: radial-gradient(circle, rgba(139,205,255,0.48) 0%, rgba(100,170,230,0.18) 45%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.eco-blob-bl {
+  position:absolute; bottom:-100px; left:80px;
+  width:480px; height:480px; border-radius:50%;
+  background: radial-gradient(circle, rgba(26,77,122,0.14) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+.eco-blob-mid {
+  position:absolute; top:35%; right:32%;
+  width:320px; height:320px; border-radius:50%;
+  background: radial-gradient(circle, rgba(100,160,220,0.18) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+
+/* ════════════════════════════════════
+   CONTENT AREA
+════════════════════════════════════ */
+.content {
+  position:absolute;
+  top:var(--bar); left:0; right:0; bottom:0;
+  padding:var(--py) var(--px);
+  display:flex; flex-direction:column;
+}
+
+/* ════════════════════════════════════
+   SECTION HEADER
+════════════════════════════════════ */
+.hdr { flex-shrink:0; margin-bottom:28px; }
+
+.h2 {
+  font-size:clamp(30px,3.2vw,44px);
+  font-weight:700;
+  letter-spacing:-0.035em;
+  color:var(--fg-1);
+  line-height:1.05;
+  margin-bottom:8px;
+}
+.h2 em { font-style:normal; color:var(--accent); }
+
+.h2-sub {
+  font-family:var(--font-sans);
+  font-size:22px; font-weight:500;
+  color:#1a4d7a;
+  line-height:1.4;
+  margin-bottom:6px;
+}
+
+.lead {
+  font-size:15px; font-weight:400;
+  color:var(--fg-3);
+  line-height:1.7;
+  max-width:640px;
+  margin-top:12px;
+}
+.lead strong { font-weight:600; color:var(--fg-2); }
+
+/* ════════════════════════════════════
+   PILLAR GRID,slide 2
+════════════════════════════════════ */
+.pillars-grid {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  flex:1; min-height:0;
+}
+
+/* DARK CARD */
+.gc { background: #1e3452; }
+/* all pillars share the same navy background */
+
+/* all pillars share the same accent blue as card 01 */
+
+.gc {
+  border: 1px solid rgba(139,205,255,0.10);
+  border-radius: 20px;
+  padding: 18px 16px 14px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.28),
+    0 1px 3px rgba(0,0,0,0.18);
+  transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease);
+  cursor: default;
+}
+.gc:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 36px rgba(0,0,0,0.38),
+    0 2px 6px rgba(0,0,0,0.22);
+}
+.gc-icon { display: none; }
+.gc-top {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 12px; flex-shrink: 0;
+}
+.gc-num-lg {
+  font-size: 36px; font-weight: 700;
+  line-height: 1;
+  color: var(--accent-lt);
+  letter-spacing: -0.02em;
+}
+.gc-label-pill {
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(200,224,245,0.82);
+  background: rgba(139,205,255,0.10);
+  border: 1px solid rgba(139,205,255,0.18);
+  border-radius: 10px;
+  padding: 4px 10px;
+  line-height: 1.4;
+  align-self: flex-start;
+}
+.gc-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 21px; font-weight: 600;
+  letter-spacing: -0.02em; line-height: 1.2;
+  color: #ffffff;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+.gc-img-ph {
+  flex: 1; min-height: 0;
+  border-radius: 0 0 19px 19px;
+  overflow: hidden;
+  margin: 10px -16px -14px;
+}
+.gc-img-ph img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ════════════════════════════════════
+   CARDS,Light content slides
+════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 28px 26px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  box-shadow:
+    0 2px 8px rgba(26,77,122,0.06),
+    0 8px 24px rgba(26,77,122,0.05);
+  transition: box-shadow 0.22s var(--ease), transform 0.22s var(--ease);
+  cursor: default;
+}
+.card:hover {
+  box-shadow:
+    0 4px 16px rgba(26,77,122,0.10),
+    0 14px 40px rgba(26,77,122,0.09);
+  transform: translateY(-3px);
+}
+.card.featured {
+  background: linear-gradient(150deg, rgba(139,205,255,0.10) 0%, #ffffff 55%);
+  box-shadow:
+    0 2px 8px rgba(26,77,122,0.08),
+    0 8px 24px rgba(26,77,122,0.07);
+}
+
+.card-eye {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #1a4d7a;
+  margin-bottom: 10px; display: block;
+}
+.card-title {
+  font-size: 16px; font-weight: 700;
+  letter-spacing: -0.02em; line-height: 1.25;
+  color: var(--fg-1);
+  margin-bottom: 10px;
+}
+.card-body {
+  font-size: 15px; font-weight: 400;
+  color: var(--fg-3); line-height: 1.6; flex: 1;
+}
+.card-body strong { font-weight: 600; color: var(--fg-2); }
+
+.card-compact { padding: 10px 14px; }
+.card-compact .card-eye { margin-bottom: 6px; }
+.card-compact .card-title { font-size: 14px; margin-bottom: 4px; }
+.card-compact .card-body { font-size: 14px; line-height: 1.4; }
+
+.callout {
+  padding: 14px 18px;
+  border-left: 3px solid #8bcdff;
+  background: rgba(139,205,255,0.06);
+  border-radius: 0 12px 12px 0;
+}
+.callout-eye {
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8bcdff;
+  display: block; margin-bottom: 6px;
+}
+.callout p {
+  font-size: 14px; font-weight: 400;
+  color: var(--fg-2); line-height: 1.65;
+}
+.callout strong { font-weight: 600; color: var(--fg-1); }
+
+.method-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 12px max-content 1fr;
+  column-gap: 7px; row-gap: 9px;
+  margin-top: 10px;
+}
+.method-list li {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: start;
+  font-size: 14px; color: var(--fg-3); line-height: 1.55;
+}
+.method-list li strong {
+  color: #1e3452;
+  white-space: nowrap;
+}
+.method-list li::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: #1a4d7a;
+  border-radius: 50%;
+  margin-top: 5px;
+  align-self: start;
+}
+
+.img-ph {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg); border-radius: 12px; gap: 9px;
+}
+.img-ph-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg-4); font-style: italic;
+  text-align: center; padding: 0 12px;
+}
+.img-ph-full {
+  width: 100%; flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg); border-radius: 14px;
+  gap: 9px; margin-top: 14px;
+}
+
+/* Quote callout for detail slides */
+.quote-box {
+  background: rgba(26,77,122,0.03);
+  border-left: 3px solid rgba(139,205,255,0.55);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 20px;
+  flex-shrink: 0;
+}
+.quote-box p {
+  font-size: 14px; font-weight: 500;
+  color: var(--fg-2); line-height: 1.72;
+}
+
+/* Stat boxes */
+.stat-row { display: flex; gap: 10px; flex-shrink: 0; margin-top: 12px; }
+.stat-box {
+  background: rgba(139,205,255,0.10);
+  border-radius: 14px;
+  padding: 14px 16px;
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-num {
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+.stat-num em { font-style: normal; color: var(--accent-lt); }
+.stat-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.10em;
+  color: var(--fg-3);
+  text-transform: uppercase;
+}
+
+/* Alert pills */
+.alert-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.10em;
+  border-radius: 9999px;
+  padding: 4px 11px;
+}
+.alert-pill.red  { background: rgba(239,68,68,0.10); color: #b91c1c; }
+.alert-pill.yel  { background: rgba(234,179,8,0.12); color: #92400e; }
+.alert-pill.grn  { background: rgba(34,197,94,0.10); color: #15803d; }
+
+/* ════════════════════════════════════
+   LAYOUT GRIDS
+════════════════════════════════════ */
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 12px; flex: 1; min-height: 0;
+}
+
+
+
+/* ════════════════════════════════════
+   TEXT-FIT SAFETY, cards across devices
+   Keeps card text visible on smaller screens/heights.
+════════════════════════════════════ */
+.card { min-height: 0; }
+.card-body,
+.quote-box p,
+.callout p,
+.method-list li,
+.card li {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.card.text-scroll-safe,
+.quote-box.text-scroll-safe,
+.callout.text-scroll-safe {
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+}
+.card.text-scroll-safe::-webkit-scrollbar,
+.quote-box.text-scroll-safe::-webkit-scrollbar,
+.callout.text-scroll-safe::-webkit-scrollbar { width: 4px; }
+.card.text-scroll-safe::-webkit-scrollbar-thumb,
+.quote-box.text-scroll-safe::-webkit-scrollbar-thumb,
+.callout.text-scroll-safe::-webkit-scrollbar-thumb {
+  background: rgba(26,77,122,0.18);
+  border-radius: 9999px;
+}
+
+@media (max-height: 820px) {
+  :root { --py: 36px; --px: 64px; }
+  .hdr { margin-bottom: 18px; }
+  .h2 { font-size: clamp(28px, 2.8vw, 38px); }
+  .h2-sub { font-size: 18px; line-height: 1.32; }
+  .lead { font-size: 13px; line-height: 1.55; margin-top: 8px; }
+  .card { padding: 20px 20px; }
+  .card-compact { padding: 8px 12px; }
+  .card-eye { margin-bottom: 7px; }
+  .card-title { margin-bottom: 7px; }
+}
+
+@media (max-width: 1180px) {
+  :root { --px: 56px; --py: 38px; }
+  .card { padding: 20px 18px; }
+  .card-compact { padding: 8px 12px; }
+  .h2 { font-size: clamp(27px, 3vw, 38px); }
+  .h2-sub { font-size: 18px; }
+}
+
+/* ════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════ */
+.nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  z-index: 999;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+}
+.nav:hover { transform: translateY(-50%) scale(1.08); }
+.nav-p { left: 18px; }
+.nav-n { right: 18px; }
+.nav svg { width: 16px; height: 16px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nav.dk { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.nav.dk svg { stroke: #fff; }
+.nav.lt { background: rgba(240,242,245,0.88); border: 1px solid rgba(26,77,122,0.13); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.nav.lt svg { stroke: var(--accent); }
+
+.prog { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 999; display: flex; align-items: center; gap: 14px; }
+.dot-wrap { display: flex; gap: 5px; }
+.dot { width: 5px; height: 5px; border-radius: 9999px; transition: width 0.2s var(--ease), background 0.2s var(--ease); }
+.dot.on { width: 18px; }
+.dot.dk { background: rgba(255,255,255,0.22); }
+.dot.dk.on { background: var(--accent-lt); }
+.dot.lt { background: rgba(26,77,122,0.18); }
+.dot.lt.on { background: var(--accent); }
+.counter { font-size: 9px; font-weight: 600; letter-spacing: 0.10em; }
+.counter.dk { color: rgba(255,255,255,0.32); }
+.counter.lt { color: var(--fg-4); }
+
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 01 · COVER (DARK)        ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-cover" data-t="dk">
+  <div class="cover-glow-br"></div>
+  <div class="cover-glow-tl"></div>
+  <div class="cover-stage">
+    <h1 class="cover-h1">
+      Automotive<br>
+      Performance <em>Report</em>
+    </h1>
+    <p class="cover-subtitle">Proposal for New Analyses and Improvements 2026-2027</p>
+    <p class="cover-note">
+      This document presents a series of proposed enhancements to the Automotive Report project in view of the upcoming renewal. The MMKSI team will be able to indicate which of these improvements are of greatest interest, so that Astara can proceed with their implementation accordingly.
+    </p>
+  </div>
+  <img src="logo-white.png" alt="Astara Intelligence" style="position:absolute; bottom:43px; left:var(--px); height:15px; width:auto; z-index:10;">
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 02 · ECOSYSTEM (LIGHT)   ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-eco" data-t="lt">
+  <div class="eco-blob-tr"></div>
+  <div class="eco-blob-bl"></div>
+  <div class="eco-blob-mid"></div>
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+  </div>
+  <div class="content" style="padding-left:48px;padding-right:48px;">
+    <div class="hdr">
+      <h2 class="h2">New Developments &amp; Improvements</h2>
+      <p class="h2-sub">2026-2027 <em style="font-style:normal;color:var(--accent);">Intelligence ecosystem</em></p>
+      <p class="lead">To secure a dominant market position, we are proposing <strong>new advanced analytical pillars</strong> designed to provide total visibility over the competitive landscape.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="gc">
+        <div class="gc-top">
+          <span class="gc-num-lg">01</span>
+          <span class="gc-label-pill">Market Intelligence</span>
+        </div>
+        <p class="gc-title">Price &amp; Promotion alert system and Monitoring</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/04.png" alt="Market Intelligence"></div>
+      </div>
+      <div class="gc">
+        <div class="gc-top">
+          <span class="gc-num-lg">02</span>
+          <span class="gc-label-pill">Creative Intelligence</span>
+        </div>
+        <p class="gc-title">Monthly qualitative advertising analysis</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/01.png" alt="Creative Intelligence"></div>
+      </div>
+      <div class="gc">
+        <div class="gc-top">
+          <span class="gc-num-lg">03</span>
+          <span class="gc-label-pill">Influencer Intelligence</span>
+        </div>
+        <p class="gc-title">Quarterly Marketing Influencers categories analysis</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/02.png" alt="Influencer Intelligence"></div>
+      </div>
+      <div class="gc">
+        <div class="gc-top">
+          <span class="gc-num-lg">04</span>
+          <span class="gc-label-pill">Dealer Intelligence</span>
+        </div>
+        <p class="gc-title">Dealers navigation data</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/03.png" alt="Dealer Intelligence"></div>
+      </div>
+      <div class="gc">
+        <div class="gc-top">
+          <span class="gc-num-lg">05</span>
+          <span class="gc-label-pill">Product Intelligence</span>
+        </div>
+        <p class="gc-title">Model Diagnosis</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/05.png" alt="Product Intelligence"></div>
+      </div>
+      <div class="gc" style="border-color:rgba(255,196,64,0.18);">
+        <div class="gc-top">
+          <span class="gc-num-lg" style="color:#ffc940;">06</span>
+          <span class="gc-label-pill" style="color:rgba(255,220,120,0.90);background:rgba(255,196,64,0.12);border-color:rgba(255,196,64,0.22);">Special Reports</span>
+        </div>
+        <p class="gc-title">Auto Show &amp; Event Intelligence</p>
+        <div class="gc-img-ph"><img src="MATERIALES/slide%2002/06.png" alt="Auto Show & Event Intelligence"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 03 · SECTION DARK        ║
+     ║  Creative Intelligence          ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">01 · CREATIVE INTELLIGENCE</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Creative<br><em>Intelligence</em></h2>
+    <p class="sec-note">Monthly qualitative advertising analysis, moving beyond Share of Voice to understand the exact narratives competitors are building across all digital channels.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 04 · CREATIVE MERGED     ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">01 · CREATIVE INTELLIGENCE</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Monthly qualitative advertising analysis</h2>
+      <p class="h2-sub">Quantitative and Qualitative <em style="font-style:normal;color:var(--accent);">Competitive Reading</em></p>
+    </div>
+    <div style="display:flex;gap:12px;flex:1;min-height:0;">
+      <!-- Left: cards -->
+      <div style="display:flex;flex-direction:column;gap:4px;width:500px;flex-shrink:0;">
+        <div class="card featured card-compact" style="flex:1;padding:8px 14px;">
+          <span class="card-eye">Challenge</span>
+          <p class="card-title" style="margin-bottom:4px;">Beyond share of voice</p>
+          <p class="card-body">Tracking media spend is no longer enough. MMKSI can gain greater strategic value by understanding which narratives competitors are pushing and how their messaging evolves over time.</p>
+        </div>
+        <div class="card card-compact" style="flex:1;padding:8px 14px;">
+          <span class="card-eye">01 · Quantitative data</span>
+          <p class="card-title" style="margin-bottom:4px;">Channel activity tracking</p>
+          <p class="card-body">Activity of each OEM across all digital sources, Video, Search, Meta, Display, tracked monthly.</p>
+        </div>
+        <div class="card card-compact" style="flex:1;padding:8px 14px;">
+          <span class="card-eye">02 · Qualitative data</span>
+          <p class="card-title" style="margin-bottom:4px;">Creative theme coding</p>
+          <p class="card-body">Coding creatives according to the <strong>themes they address</strong>, price, safety, technology, lifestyle, model launch, and more.</p>
+        </div>
+        <div class="card featured card-compact" style="flex:1;padding:8px 14px;">
+          <span class="card-eye">03 · Strategic value</span>
+          <p class="card-title" style="margin-bottom:4px;">Holistic view</p>
+          <p class="card-body">Quantifying and qualifying advertising enables a <strong>much deeper analysis</strong> of MMKSI's positioning versus its competitors.</p>
+        </div>
+      </div>
+      <!-- Right: large image -->
+      <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;padding:0;overflow:hidden;">
+        <img src="MATERIALES/slide%2004.png" alt="Mock up slide 04" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 06 · SECTION DARK        ║
+     ║  Influencer Intelligence        ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">02 · INFLUENCER INTELLIGENCE</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Influencer<br><em>Intelligence</em></h2>
+    <p class="sec-note">Quarterly marketing influencer categories analysis, identifying precisely where to invest for maximum engagement and identifying untapped opportunities in the market.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 07 · INFLUENCER          ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">02 · INFLUENCER INTELLIGENCE</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Quarterly Marketing Influencers Categories Analysis</h2>
+      <p class="h2-sub">Improving Influencer <em style="font-style:normal;color:var(--accent);">Investment Decisions</em></p>
+    </div>
+    <div style="display:flex;gap:12px;flex:1;min-height:0;">
+      <!-- Left: info cards -->
+      <div style="display:flex;flex-direction:column;gap:12px;width:270px;flex-shrink:0;">
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Challenge</span>
+          <p class="card-title">Precise influencer targeting</p>
+          <p class="card-body">Influencer marketing requires precise targeting. <strong>Investing in the wrong category</strong> can quickly lead to wasted budget and missed audience reach.</p>
+        </div>
+        <div class="card featured card-compact" style="flex:1;">
+          <span class="card-eye">Methodology</span>
+          <p class="card-title">Category-level analysis</p>
+          <p class="card-body">Scale the influencer analysis to category level, identifying which categories perform best and <strong>mapping where MMKSI and competing brands</strong> concentrate their efforts.</p>
+        </div>
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Strategic value</span>
+          <p class="card-title">Refine strategy, improve ROI</p>
+          <p class="card-body">Extract key learnings to refine strategy and make marketing investment <strong>more efficient and impactful</strong> across every influencer touchpoint.</p>
+        </div>
+      </div>
+      <!-- Center: image -->
+      <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <span class="card-eye">Influencer category analysis · Visual</span>
+        <p class="card-title" style="margin-bottom:0;">Category performance mapping</p>
+        <div class="img-ph-full" style="padding:0;background:transparent;flex:1;min-height:0;align-items:flex-start;justify-content:flex-start;">
+          <img src="MATERIALES/SLIDE-CAMBIO.jpg" alt="Category performance mapping" style="width:100%;height:100%;object-fit:contain;object-position:center center;display:block;border-radius:0;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 09 · SECTION DARK        ║
+     ║  Dealer Intelligence            ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">03 · DEALER INTELLIGENCE</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Dealer<br><em>Intelligence</em></h2>
+    <p class="sec-note">Dealers websites navigation, closing the conversion gap by understanding how competitors drive traffic from brand websites to their dealership networks.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 10 · DEALERS INTRO       ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">03 · DEALER INTELLIGENCE</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Dealers Websites Navigation</h2>
+      <p class="h2-sub">Closing the <em style="font-style:normal;color:var(--accent);">Conversion Gap</em></p>
+      <p class="lead">Treating the digital journey as <strong>two sides of the same coin</strong>,tracking both OEM traffic and Dealer traffic to reveal where market share is won or lost.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex:1;min-height:0;">
+      <div style="display:flex;flex-direction:column;gap:12px;width:360px;flex-shrink:0;">
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Challenge</span>
+          <p class="card-title">The journey ends at the dealership</p>
+          <p class="card-body">The customer journey culminates at the dealership. Understanding competitor dealer traffic is crucial to ensure <strong>high-intent consumers choose MMKSI</strong>.</p>
+        </div>
+        <div class="card featured card-compact" style="flex:1;">
+          <span class="card-eye">Methodology</span>
+          <p class="card-title">OEM Traffic + Dealer Traffic</p>
+          <p class="card-body">We analyze the volume of web visitors received by the dealers of MMKSI's main competing brands, revealing the <strong>full digital funnel</strong> of each competitor.</p>
+        </div>
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Strategic value</span>
+          <p class="card-title">Identify opportunities &amp; gaps</p>
+          <p class="card-body">Pinpoint weaknesses in the competitive landscape and ensure <strong>high-intent consumers are driven to MMKSI</strong> rather than lost to competitors.</p>
+        </div>
+      </div>
+      <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <span class="card-eye">Comparative funnel · Visual</span>
+        <p class="card-title" style="margin-bottom:0;">OEM vs. Dealer traffic funnel by brand</p>
+        <div class="img-ph-full" style="padding:0;background:transparent;flex:1;min-height:0;align-items:flex-start;justify-content:flex-start;">
+          <img src="MATERIALES/CAMBIO8.png" alt="OEM vs Dealer traffic funnel by brand" style="width:100%;height:100%;object-fit:contain;object-position:center center;display:block;border-radius:0;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 11 · DEALERS DETAIL      ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">03 · DEALER INTELLIGENCE</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Dealer Websites Technology and Capabilities</h2>
+      <p class="h2-sub">Dealers Webpages <em style="font-style:normal;color:var(--accent);">Capabilities</em></p>
+    </div>
+    <div style="display:flex;gap:12px;flex:1;min-height:0;">
+      <div style="display:flex;flex-direction:column;gap:12px;width:340px;flex-shrink:0;">
+        <div class="quote-box">
+          <p>We analyze the websites of dealers from the main competing brands to understand what technology they use and what capabilities they offer to users across the competitive landscape.</p>
+        </div>
+        <div class="card featured" style="flex:0 0 auto;">
+          <span class="card-eye">Key insight</span>
+          <p class="card-body"><strong>Online service depth varies significantly.</strong> MMKSI can differentiate through a more complete digital dealer experience than most competitors currently offer.</p>
+        </div>
+      </div>
+      <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <span class="card-eye">Traffic analysis · Visual</span>
+        <p class="card-title" style="margin-bottom:0;">OEM visits vs. Dealer visits, competitive scatter</p>
+        <div class="img-ph-full" style="padding:0;background:transparent;flex:1;min-height:0;align-items:flex-start;justify-content:flex-start;">
+          <img src="MATERIALES/SLIDE-09.jpg" alt="OEM vs Dealer visits scatter" style="width:100%;height:100%;object-fit:contain;object-position:center center;display:block;border-radius:0;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 12 · SECTION DARK        ║
+     ║  Price & Promotion              ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">04 · PRICE &amp; PROMOTION</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Price &amp; Promotion<br><em>alert system and Monitoring</em></h2>
+    <p class="sec-note">Real-time competitive pricing and promotional intelligence, automatically detecting market movements before they impact MMKSI's monthly sales.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 13 · PRICE & PROMO INTRO ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">04 · PRICE &amp; PROMOTION MONITORING</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Price &amp; Promotion Monitoring</h2>
+      <p class="h2-sub">Real-Time <em style="font-style:normal;color:var(--accent);">Competitive Intelligence</em></p>
+      <p class="lead">Unnoticed competitor discounts or sudden price drops can severely impact monthly sales. <strong>We detect them automatically before they cause damage.</strong></p>
+    </div>
+    <div style="display:flex;gap:12px;flex:1;min-height:0;">
+      <div style="display:flex;flex-direction:column;gap:12px;width:360px;flex-shrink:0;">
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Challenge</span>
+          <p class="card-title">Undetected market movements</p>
+          <p class="card-body">Competitor discounts or sudden price drops can <strong>severely impact monthly sales</strong> if MMKSI doesn't react fast enough to counter the shift.</p>
+        </div>
+        <div class="card featured card-compact" style="flex:1;">
+          <span class="card-eye">Methodology</span>
+          <p class="card-title">Weekly automated crawling</p>
+          <p class="card-body">Sophisticated web crawling tools provide <strong>weekly tracking</strong> of specific competitor models defined by MMKSI, automatically detecting when competitors launch promotions, increase prices, or apply discounts.</p>
+        </div>
+        <div class="card card-compact" style="flex:1;">
+          <span class="card-eye">Strategic value</span>
+          <p class="card-title">Counter competitor moves</p>
+          <p class="card-body">Empowering MMKSI to make <strong>highly informed decisions</strong> and directly counter the market movements of the competition with speed and precision.</p>
+        </div>
+      </div>
+      <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <span class="card-eye">Price evolution · Visual</span>
+        <p class="card-title" style="margin-bottom:0;">Price evolution dashboard — multiple models, weekly min &amp; max</p>
+        <div class="img-ph-full" style="padding:0;background:transparent;flex:1;min-height:0;align-items:flex-start;justify-content:flex-start;">
+          <img src="MATERIALES/EMAIL.png" alt="Price evolution dashboard" style="width:100%;height:100%;object-fit:cover;object-position:top left;display:block;border-radius:0;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 15 · SECTION DARK        ║
+     ║  Model Diagnosis                ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">05 · MODEL DIAGNOSIS</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Model<br><em>Diagnosis</em></h2>
+    <p class="sec-note">AI-powered consumer sentiment analysis, understanding the genuine voice of the market about MMKSI models through exhaustive analysis of real video comment data.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 16 · MODEL DIAG INTRO    ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">05 · MODEL DIAGNOSIS</span>
+  </div>
+  <div class="content" style="display:flex;flex-direction:column;gap:14px;">
+    <div class="hdr" style="flex-shrink:0;">
+      <h2 class="h2">Model Diagnosis</h2>
+      <p class="h2-sub">AI-Powered <em style="font-style:normal;color:var(--accent);">Consumer Sentiment Analysis</em></p>
+    </div>
+    <div style="flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+      <img src="MATERIALES/model-cover.jpg" alt="Model Diagnosis" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+    </div>
+    <!-- 4 cards in a row -->
+    <div style="display:flex;gap:12px;height:300px;flex-shrink:0;">
+      <div class="card featured" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">The Capability</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Deep model perception intelligence</p>
+        <p class="card-body">Genuine feedback from viewers in comments sections of relevant online video content.</p>
+      </div>
+      <div class="card" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">How it works</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">3-step AI analysis process</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+          <li style="font-size:13px;color:var(--fg-3);line-height:1.5;"><strong style="color:#1e3452;">Step 1:</strong> Identify pertinent videos.</li>
+          <li style="font-size:13px;color:var(--fg-3);line-height:1.5;"><strong style="color:#1e3452;">Step 2:</strong> AI analyzes viewer comments via NLP.</li>
+          <li style="font-size:13px;color:var(--fg-3);line-height:1.5;"><strong style="color:#1e3452;">Step 3:</strong> Identify themes and emotional tone.</li>
+        </ul>
+      </div>
+      <div class="card" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">The deep dive</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Multi-dimension analysis</p>
+        <p class="card-body">Design, performance, features, price — strengths and weaknesses per dimension.</p>
+      </div>
+      <div class="card featured" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">Strategic value</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Adapt, address, capitalize</p>
+        <p class="card-body">Strategically adapt marketing messages and capitalize on positive perceptions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 18 · MODEL DIAG VIDEO    ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">05 · MODEL DIAGNOSIS</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">Model Diagnosis in Action</h2>
+      <p class="h2-sub">TEASER <em style="font-style:normal;color:var(--accent);">TRAILER</em></p>
+    </div>
+    <div class="card" style="flex:1;min-height:0;display:flex;flex-direction:column;padding:0;overflow:hidden;background:#000;">
+      <video src="MATERIALES/MODEL%20DIAGNOSIS%20vE.mp4" poster="MATERIALES/model-cover.jpg" controls style="width:100%;height:100%;object-fit:contain;display:block;background:#000;"></video>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 19 · SECTION DARK        ║
+     ║  Auto Show & Event Intelligence ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-sec" data-t="dk">
+  <div class="sec-glow-tr"></div>
+  <div class="sec-glow-bl"></div>
+  <div class="cover-logo">
+    <img class="logo-white" src="logo-white.png" alt="Astara Intelligence">
+  </div>
+  <div class="cover-label">06 · SPECIAL REPORTS</div>
+  <div class="sec-stage">
+
+    <h2 class="sec-h1">Auto Show &amp;<br><em>Event Intelligence</em></h2>
+    <p class="sec-note">A complete digital view of Indonesia's major automotive events, covering social voice, own media, influencers and competitive advertising to optimize every activation.</p>
+  </div>
+  <div class="logo-bar-br">
+    <img class="mitsu-logo-w" src="MATERIALES/mitsu-logo-w.png" alt="Mitsubishi Motors">
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 20 · SPECIAL REPORTS     ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">06 · SPECIAL REPORTS</span>
+  </div>
+  <div class="content" style="display:flex;flex-direction:column;gap:14px;">
+    <div class="hdr" style="flex-shrink:0;">
+      <h2 class="h2">Auto Show &amp; Event Intelligence</h2>
+      <p class="h2-sub">A Complete Digital View of <em style="font-style:normal;color:var(--accent);">Indonesia's Major Events</em></p>
+    </div>
+    <div style="flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+      <img src="MATERIALES/CAMBIO-16.jpg" alt="Auto Show Event Intelligence" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+    </div>
+    <!-- 4 cards in a row -->
+    <div style="display:flex;gap:12px;height:300px;flex-shrink:0;">
+      <div class="card featured" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">The Capability</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Dedicated event reporting stream</p>
+        <p class="card-body">Complete digital view of Indonesia's most relevant automotive events.</p>
+      </div>
+      <div class="card" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">How it works</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">End-to-end event monitoring</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+          <li style="display:flex;gap:6px;align-items:flex-start;font-size:13px;color:var(--fg-3);line-height:1.5;">
+            <span style="width:4px;height:4px;background:#1a4d7a;border-radius:50%;flex-shrink:0;margin-top:4px;"></span>
+            <span><strong style="color:#1e3452;">Social voice</strong> — Sentiment, topics &amp; model buzz.</span>
+          </li>
+          <li style="display:flex;gap:6px;align-items:flex-start;font-size:13px;color:var(--fg-3);line-height:1.5;">
+            <span style="width:4px;height:4px;background:#1a4d7a;border-radius:50%;flex-shrink:0;margin-top:4px;"></span>
+            <span><strong style="color:#1e3452;">Own media &amp; influencers</strong> — Content performance.</span>
+          </li>
+          <li style="display:flex;gap:6px;align-items:flex-start;font-size:13px;color:var(--fg-3);line-height:1.5;">
+            <span style="width:4px;height:4px;background:#1a4d7a;border-radius:50%;flex-shrink:0;margin-top:4px;"></span>
+            <span><strong style="color:#1e3452;">Competitor advertising</strong> — Creative benchmarking.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">Events covered</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Indonesia Auto Show Calendar</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+          <li style="display:flex;gap:6px;align-items:flex-start;font-size:13px;color:var(--fg-3);line-height:1.5;">
+            <span style="width:4px;height:4px;background:#1a4d7a;border-radius:50%;flex-shrink:0;margin-top:4px;"></span>
+            <span><strong style="color:#1e3452;">GIIAS</strong> — Jakarta, Surabaya, Semarang, Bandung.</span>
+          </li>
+          <li style="display:flex;gap:6px;align-items:flex-start;font-size:13px;color:var(--fg-3);line-height:1.5;">
+            <span style="width:4px;height:4px;background:#1a4d7a;border-radius:50%;flex-shrink:0;margin-top:4px;"></span>
+            <span><strong style="color:#1e3452;">IIMS</strong></span>
+          </li>
+        </ul>
+      </div>
+      <div class="card featured" style="flex:1;padding:10px 12px;">
+        <span class="card-eye">Strategic value</span>
+        <p class="card-title" style="font-size:13px;margin-bottom:4px;">Optimize every activation</p>
+        <p class="card-body">Pre-event planning to post-event analysis — maximize impact at every show.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 21 · SPECIAL REPORTS DET ║
+     ╚══════════════════════════════════╝ -->
+<section class="s" data-t="lt">
+  <div class="bar">
+    <img class="logo-dark" src="logo-dark.png" alt="Astara Intelligence">
+    <span class="bar-label">06 · SPECIAL REPORTS</span>
+  </div>
+  <div class="content">
+    <div class="hdr">
+      <h2 class="h2">GIIAS 2025 Event Intelligence Overview</h2>
+      <p class="h2-sub">Social Voice, Own Media &amp; <em style="font-style:normal;color:var(--accent);">Influencer Performance</em></p>
+    </div>
+    <div style="flex:1;min-height:0;border-radius:20px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+      <img src="MATERIALES/slide-19.jpg" alt="GIIAS 2025 Event Intelligence" style="width:100%;height:100%;object-fit:contain;object-position:center center;display:block;">
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════════╗
+     ║  SLIDE 22 · CLOSING (DARK)      ║
+     ╚══════════════════════════════════╝ -->
+<section class="s s-close" data-t="dk">
+  <div class="close-glow-c"></div>
+  <div class="close-stage">
+    <div class="close-divider"></div>
+    <p class="close-tagline">
+      Thank you.<br>We look forward to<br><em>working with you.</em>
+    </p>
+    <div class="close-divider"></div>
+    <a class="dl-btn" href="MMKSI_presentation.pdf" download>
+      <svg viewBox="0 0 24 24"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+      Download Report
+    </a>
+  </div>
+</section>
+
+
+</div><!-- /.deck -->
+
+<button class="nav nav-p dk" id="prev" aria-label="Previous slide">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="nav nav-n dk" id="next" aria-label="Next slide">
+  <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<div class="prog" id="prog">
+  <div class="dot-wrap" id="dots"></div>
+  <span class="counter dk" id="counter">1 / 19</span>
+</div>
+
+<script>
+(function() {
+  const deck    = document.getElementById('deck');
+  const slides  = [...deck.querySelectorAll('.s')];
+  const dotsEl  = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const btnPrev = document.getElementById('prev');
+  const btnNext = document.getElementById('next');
+  const N = slides.length;
+  let cur = 0;
+
+  slides.forEach(() => {
+    const d = document.createElement('span');
+    d.className = 'dot';
+    dotsEl.appendChild(d);
+  });
+  const dots = [...dotsEl.querySelectorAll('.dot')];
+
+  function applyTheme(idx) {
+    const t = slides[idx].dataset.t || 'lt';
+    btnPrev.className = `nav nav-p ${t}`;
+    btnNext.className = `nav nav-n ${t}`;
+    dots.forEach((d, i) => {
+      d.className = `dot ${t}${i === idx ? ' on' : ''}`;
+    });
+    counter.className = `counter ${t}`;
+    counter.textContent = `${idx + 1} / ${N}`;
+  }
+
+  let scrollTimer;
+  deck.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const idx = Math.round(deck.scrollLeft / deck.offsetWidth);
+      if (idx !== cur) { cur = idx; applyTheme(cur); }
+    }, 80);
+  }, { passive: true });
+
+  btnNext.addEventListener('click', () => {
+    cur = Math.min(cur + 1, N - 1);
+    deck.scrollTo({ left: cur * deck.offsetWidth, behavior: 'smooth' });
+    applyTheme(cur);
+  });
+  btnPrev.addEventListener('click', () => {
+    cur = Math.max(cur - 1, 0);
+    deck.scrollTo({ left: cur * deck.offsetWidth, behavior: 'smooth' });
+    applyTheme(cur);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      cur = Math.min(cur + 1, N - 1);
+      deck.scrollTo({ left: cur * deck.offsetWidth, behavior: 'smooth' });
+      applyTheme(cur);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      cur = Math.max(cur - 1, 0);
+      deck.scrollTo({ left: cur * deck.offsetWidth, behavior: 'smooth' });
+      applyTheme(cur);
+    }
+  });
+
+
+
+  function fitTextBoxes() {
+    const boxes = [...document.querySelectorAll('.card, .quote-box, .callout')];
+
+    boxes.forEach(box => {
+      const textEls = [...box.querySelectorAll('.card-eye, .card-title, .card-body, .quote-box p, .callout-eye, .callout p, .method-list li, .card li')]
+        .filter(el => el.textContent.trim().length && el.offsetParent !== null);
+
+      if (!textEls.length || box.clientHeight === 0 || box.clientWidth === 0) return;
+
+      box.classList.remove('text-scroll-safe');
+      box.style.overflowY = '';
+
+      textEls.forEach(el => {
+        const cs = window.getComputedStyle(el);
+        if (!el.dataset.fitFontSize) {
+          const fontSize = parseFloat(cs.fontSize) || 12;
+          const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.25;
+          el.dataset.fitFontSize = fontSize;
+          el.dataset.fitLineHeight = lineHeight;
+          el.dataset.fitMarginTop = parseFloat(cs.marginTop) || 0;
+          el.dataset.fitMarginBottom = parseFloat(cs.marginBottom) || 0;
+        }
+        el.style.fontSize = `${el.dataset.fitFontSize}px`;
+        el.style.lineHeight = `${el.dataset.fitLineHeight}px`;
+        el.style.marginTop = `${el.dataset.fitMarginTop}px`;
+        el.style.marginBottom = `${el.dataset.fitMarginBottom}px`;
+      });
+
+      let scale = 1;
+      const minScale = 0.78;
+      const overflows = () => box.scrollHeight > box.clientHeight + 2 || box.scrollWidth > box.clientWidth + 2;
+
+      while (overflows() && scale > minScale) {
+        scale -= 0.02;
+        textEls.forEach(el => {
+          el.style.fontSize = `${parseFloat(el.dataset.fitFontSize) * scale}px`;
+          el.style.lineHeight = `${parseFloat(el.dataset.fitLineHeight) * scale}px`;
+          el.style.marginTop = `${parseFloat(el.dataset.fitMarginTop) * scale}px`;
+          el.style.marginBottom = `${parseFloat(el.dataset.fitMarginBottom) * scale}px`;
+        });
+      }
+
+      if (overflows()) {
+        box.classList.add('text-scroll-safe');
+      }
+    });
+  }
+
+  let fitTimer;
+  function scheduleTextFit() {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitTextBoxes, 120);
+  }
+
+  window.addEventListener('load', scheduleTextFit);
+  window.addEventListener('resize', scheduleTextFit);
+  document.fonts?.ready?.then(scheduleTextFit);
+
+  applyTheme(0);
+  scheduleTextFit();
+})();
+</script>
+</body>
+</html>
